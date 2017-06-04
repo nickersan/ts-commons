@@ -1,0 +1,1 @@
+export { Equalable, eq } from "./dist/Equalable"
