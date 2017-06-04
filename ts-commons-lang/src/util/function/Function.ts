@@ -7,6 +7,6 @@
  */
 
 /**
- *
+ * Applies a function to the input argument, yielding an appropriate result.
  */
 export type Function<T, R> = (t: T) => R;

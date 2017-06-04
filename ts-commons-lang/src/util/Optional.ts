@@ -9,6 +9,7 @@
 import { Equalable, eq } from "../Equalable";
 import { hash, Hashable } from "../Hashable";
 import { Consumer } from "./function/Consumer";
+import { Supplier } from "./function/Supplier";
 
 /**
  * A container object which may or may not contain a non-null value.
@@ -87,10 +88,41 @@ export class Optional<T> implements Equalable<Optional<T>>, Hashable
   }
 
   /**
-   * Return an Optional with the specified present value.
+   * Returns an Optional with the specified present value.
    */
   public static of<T>(value: T): Optional<T>
   {
     return new Optional<T>(value);
+  }
+
+  /**
+   * Returns the value if present, otherwise returns the <code>other</code>.
+   */
+  public orElse(other: T): T
+  {
+    return this.present ? this._value : other;
+  }
+
+  /**
+   * Returns the value if present, otherwise returns the <code>other</code>.
+   */
+  public orElseGet(other: Supplier<T>): T
+  {
+    return this.present ? this._value : other();
+  }
+
+  /**
+   * Returns the value if present, otherwise returns the <code>other</code>.
+   */
+  public orElseThrow(errorSupplier: Supplier<string>): T
+  {
+    if (this.present)
+    {
+      return this._value
+    }
+    else
+    {
+      throw errorSupplier();
+    }
   }
 }

@@ -7,6 +7,6 @@
  */
 
 /**
- *
+ * An operation which accepts a single input argument and returns no result.
  */
 export type Consumer<T> = (t: T) => void;
