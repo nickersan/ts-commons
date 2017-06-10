@@ -13,8 +13,13 @@ export const HASH_TRUE = 1231;
 export const HASH_OFFSET = 31;
 export const BIT_MASK_32 = 0xffffffff;
 
-  /**
- * The interface implemented by classes that
+/**
+ * The interface implemented by classes that provide a hash.
+ * <p/>
+ * <strong>
+ *   NOTE: when generating a hash only immutable fields should be used!  Failure to do so may bave unexpected
+ *         consequences in classes that use the hash code.
+ * </strong>
  */
 export interface Hashable
 {

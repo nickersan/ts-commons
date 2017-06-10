@@ -1,3 +1,4 @@
 /ts-commons-lang/*.iml
 *.d.ts
 *.js
+/ts-commons-collections/*.iml

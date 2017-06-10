@@ -1,0 +1,5 @@
+export * from "./Consumer"
+export * from "./Function"
+export * from "./Operator"
+export * from "./Predicate"
+export * from "./Supplier"

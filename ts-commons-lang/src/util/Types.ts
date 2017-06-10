@@ -6,6 +6,8 @@
  *
  */
 
+import { isNotNullOrUndefined } from "./Objects";
+
 const TYPE_BOOLEAN = "boolean";
 const TYPE_NUMBER = "number";
 const TYPE_OBJECT = "object";
@@ -40,7 +42,7 @@ export function isNumber(value: any): boolean
  */
 export function isObject(value: any): boolean
 {
-  return value != null && typeof(value) === TYPE_OBJECT && !isArray(value);
+  return isNotNullOrUndefined(value) && typeof(value) === TYPE_OBJECT && !isArray(value);
 }
 
 /**

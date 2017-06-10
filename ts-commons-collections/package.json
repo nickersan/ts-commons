@@ -1,0 +1,42 @@
+{
+  "name": "ts-commons-collections",
+  "version": "1.0.0",
+  "description": "Provides collection interfaces, classes and functions",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sahat/hackathon-starter.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run build-src && npm run build-index",
+    "build-index": "tsc --declaration --outdir ./ ./index.ts",
+    "build-src": "tsc",
+    "test": "jest --forceExit",
+    "test-debug": "node-debug jest --runInBand"
+  },
+  "jest": {
+    "globals": {
+      "__TS_CONFIG__": "tsconfig.json"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/test/**/*.test.ts"
+    ],
+    "testEnvironment": "node"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "jest-environment-node-debug": "^2.0.0",
+    "ts-jest": "^20.0.5",
+    "typescript": "^2.3.4"
+  }
+}

@@ -24,9 +24,20 @@ describe(
         expect(optional.equals(Optional.empty<string>())).toBe(false);
         expect(optional.hashCode).toBe(3556498);
 
-        const consumer = jest.fn();
-        optional.ifPresent(consumer);
-        expect(consumer).toBeCalledWith(value);
+        const consumer1 = jest.fn();
+        const operator1 = jest.fn();
+        optional.ifPresent(consumer1).orElse(operator1);
+        expect(consumer1).toBeCalledWith(value);
+        expect(operator1).not.toBeCalled();
+
+        const operator2 = jest.fn();
+        const consumer2 = jest.fn();
+        optional.ifNotPresent(operator2).orElse(consumer2);
+        expect(operator2).not.toBeCalled();
+        expect(consumer2).toBeCalledWith(value);
+
+        expect(() => { Optional.of(null) }).toThrow("Value cannot be null or undefined");
+        expect(() => { Optional.of(undefined) }).toThrow("Value cannot be null or undefined");
       }
     );
 
@@ -46,9 +57,26 @@ describe(
         expect(optional.equals(Optional.of(other))).toBe(false);
         expect(optional.hashCode).toBe(0);
 
-        const consumer = jest.fn();
-        optional.ifPresent(consumer);
-        expect(consumer).not.toBeCalled();
+        const consumer1 = jest.fn();
+        const operator1 = jest.fn();
+        optional.ifPresent(consumer1).orElse(operator1);
+        expect(consumer1).not.toBeCalledWith();
+        expect(operator1).toBeCalled();
+
+        const operator2 = jest.fn();
+        const consumer2 = jest.fn();
+        optional.ifNotPresent(operator2).orElse(consumer2);
+        expect(operator2).toBeCalled();
+        expect(consumer2).not.toBeCalledWith();
+      }
+    );
+
+    it(
+      "ofNullable",
+      () =>
+      {
+        expect(Optional.ofNullable(null).present).toBe(false);
+        expect(Optional.ofNullable(undefined).present).toBe(false);
       }
     );
   }

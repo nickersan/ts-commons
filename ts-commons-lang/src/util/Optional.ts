@@ -8,8 +8,12 @@
 
 import { Equalable, eq } from "../Equalable";
 import { hash, Hashable } from "../Hashable";
+import { NoSuchElementException } from "../NoSuchElementException";
 import { Consumer } from "./function/Consumer";
 import { Supplier } from "./function/Supplier";
+import { Operator } from "./function/Operator";
+import { requireNonNullAndDefined} from "./Objects";
+import { OrElse } from "./OrElse";
 
 /**
  * A container object which may or may not contain a non-null value.
@@ -32,7 +36,7 @@ export class Optional<T> implements Equalable<Optional<T>>, Hashable
     }
     else
     {
-      throw "No value present";
+      throw new NoSuchElementException("No value present");
     }
   }
 
@@ -79,18 +83,51 @@ export class Optional<T> implements Equalable<Optional<T>>, Hashable
   /**
    * Have the specified consumer accept the value if a value is present, otherwise do nothing.
    */
-  public ifPresent(consumer: Consumer<T>): void
+  public ifPresent(consumer: Consumer<T>): OrElse<Operator>
   {
     if (this.present)
     {
       consumer(this._value);
+      return { orElse: () => {} };
+    }
+    else
+    {
+      return { orElse: (operator: Operator) => { operator(); } };
+    }
+  }
+
+  /**
+   * Have the specified consumer accept the value if a value is present, otherwise do nothing.
+   */
+  public ifNotPresent(operator: Operator): OrElse<Consumer<T>>
+  {
+    if (!this.present)
+    {
+      operator();
+      return { orElse: () => {} };
+    }
+    else
+    {
+      let value: T = this.value;
+      return { orElse: (consumer: Consumer<T>): void => consumer(value) };
     }
   }
 
   /**
    * Returns an Optional with the specified present value.
+   *
+   * @throws error if the <code>value</code> is <code>null</code>.
    */
   public static of<T>(value: T): Optional<T>
+  {
+    requireNonNullAndDefined(value, "Value cannot be null or undefined");
+    return new Optional<T>(value);
+  }
+
+  /**
+   * Returns an Optional with the specified present value.
+   */
+  public static ofNullable<T>(value: T): Optional<T>
   {
     return new Optional<T>(value);
   }
