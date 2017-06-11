@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "npm run build-src && npm run build-index",
+    "build": "npm run build-src && npm run build-index && npm run test",
     "build-index": "tsc --declaration --outdir ./ ./index.ts",
     "build-src": "tsc",
     "test": "jest --forceExit",
