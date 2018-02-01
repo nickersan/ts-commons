@@ -79,5 +79,16 @@ describe(
         expect(Optional.ofNullable(undefined).present).toBe(false);
       }
     );
+
+    it(
+      "map",
+      () =>
+      {
+        let toLocaleString = (i) => i.toLocaleString();
+
+        expect(Optional.of(1).map(toLocaleString).value).toBe("1");
+        expect(Optional.empty().map(toLocaleString).present).toBe(false);
+      }
+    );
   }
 );

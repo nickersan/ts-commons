@@ -1,4 +1,5 @@
 export * from "./BiConsumer"
+export * from "./BiFunction"
 export * from "./Consumer"
 export * from "./Function"
 export * from "./Operator"

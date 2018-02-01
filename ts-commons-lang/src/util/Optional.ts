@@ -6,24 +6,30 @@
  *
  */
 
+import { Consumer } from "./function/Consumer";
 import { Equalable, eq } from "../Equalable";
+import { Function } from "./function/Function";
 import { hash, Hashable } from "../Hashable";
 import { NoSuchElementException } from "../NoSuchElementException";
-import { Consumer } from "./function/Consumer";
-import { Supplier } from "./function/Supplier";
 import { Operator } from "./function/Operator";
-import { requireNonNullAndDefined} from "./Objects";
 import { OrElse } from "./OrElse";
+import { requireNonNullAndDefined} from "./Objects";
+import { Supplier } from "./function/Supplier";
 
 /**
  * A container object which may or may not contain a non-null value.
  */
 export class Optional<T> implements Equalable<Optional<T>>, Hashable
 {
+  private _value: T;
+
   /**
    * Initializes a new <code>Optional</code> with the <code>value</code>
    */
-  private constructor(private _value: T) {};
+  private constructor(value: T)
+  {
+    this._value = value;
+  };
 
   /**
    * Returns the <code>value</code> if present; otherwise throws an error.
@@ -161,5 +167,14 @@ export class Optional<T> implements Equalable<Optional<T>>, Hashable
     {
       throw errorSupplier();
     }
+  }
+
+  /**
+   * Returns the result of applying the <code>mapper</code> to the value if present, otherwise returns an <i>empty</i>
+   * <code>Optional</code>.
+   */
+  public map<R>(mapper: Function<T, R>): Optional<R>
+  {
+    return this.present ? Optional.ofNullable<R>(mapper(this.value)) : Optional.empty<R>();
   }
 }

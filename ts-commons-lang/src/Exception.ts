@@ -13,12 +13,15 @@ import "./extensions/String"
  */
 export class Exception extends Error
 {
+  private _cause?: Error;
+
   /**
    * Initializes a new <code>Exception</code> with the <code>message</code> and optionally a <code>cause</code>.
    */
-  constructor(message: string, private _cause?: Error)
+  constructor(message: string, cause?: Error)
   {
     super(message);
+    this._cause = cause;
   }
 
   /**
@@ -39,7 +42,7 @@ export class Exception extends Error
 
     if (this._cause)
     {
-      s += "\nCaused by: " + this.cause.toString();
+      s += "\nCaused by: " + this._cause.toString();
     }
 
     return s;
